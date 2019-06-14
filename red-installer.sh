@@ -21,7 +21,7 @@ fi
 
 # Check if we have the sudo command
 
-if [ -z "$(command -v sudo)" ] && [ "$RUNAS" == "nonroot" ] ; then
+if [ -z "$(command -v sudo)" ] ; then
 	echo "ERROR! It looks like the sudo package is not installed."
 	echo "Please switch to the root user and install it by running:"
 	echo "apt update && apt install sudo -y"
