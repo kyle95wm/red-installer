@@ -29,7 +29,7 @@ if [ -z "$(command -v sudo)" ] && [ "$RUNAS" == "nonroot" ] ; then
 fi
 
 # Check if we've already installed Red
-if [ -f "$HOME/.phase1" ] && [ -f "$HOME/.phase2" ] && [ -f "$HOME/.phase3" ] && [ -f "$HOME/.installed" ] ; then
+if [ -f "$HOME/.installed" ] ; then
 	echo "Looks like you've already installed Red."
 	echo "Goodbye!"
 	exit 1
@@ -120,9 +120,11 @@ WantedBy=multi-user.target
 EOF
 	sudo cp /tmp/red /etc/systemd/system/red@.service
 	read -pr "What is the name of your bot's instance?: " instancename
-	echo "Putting in the rest of the pieces to auto-start bot instance named $instancename
+	echo "Putting in the rest of the pieces to auto-start bot instance named $instancename"
 	sudo systemctl start red@$instancename
 	sudo systemctl enable red@$instancename
+	echo "Cleaning up some files..."
+	rm -rf "$HOME/.phase1" "$HOME/.phase2" "$HOME/.phase3"
 	echo "Done!"
 	touch "$HOME/.installed"
 	echo "Rebooting in 10 seconds...."
